@@ -9,16 +9,16 @@ jobs:
       arch: amd64
     - env: PYTHON_VERSION=3.7.4 ARCH=amd64
       arch: amd64
-    - env: PYTHON_VERSION=3.7.4 ARCH=arm64
-      arch: arm64
     - env: PYTHON_VERSION=3.8.0 ARCH=amd64
       arch: amd64
+    - env: PYTHON_VERSION=3.8.0 ARCH=aarch64
+      arch: arm64
 install:
-  - docker pull dmoj/runtimes-tier1
+  - docker pull dmoj/runtimes-tier1:"${ARCH}"-latest
 script:
   - export PYTHON_DIR="python$(echo "$PYTHON_VERSION" | cut -d. -f 1-2)"
   - export PYTHON_URL="https://www.python.org/ftp/python/$(perl -e 'shift=~/([\d.]+)/;print$1' "$PYTHON_VERSION")/Python-$PYTHON_VERSION.tar.xz"
-  - docker run -e PYTHON_DIR="$PYTHON_DIR" -e PYTHON_URL="$PYTHON_URL" -v "$(pwd):/code" dmoj/runtimes-tier1
+  - docker run -e PYTHON_DIR="$PYTHON_DIR" -e PYTHON_URL="$PYTHON_URL" -v "$(pwd):/code" dmoj/runtimes-tier1:"${ARCH}"-latest
 deploy:
   provider: releases
   api_key:
