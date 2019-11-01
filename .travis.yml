@@ -3,11 +3,16 @@ branches:
     - /^untagged-.*/
 services:
   - docker
-env:
-  matrix:
-    - PYTHON_VERSION=3.6.9
-    - PYTHON_VERSION=3.7.4
-    - PYTHON_VERSION=3.8.0
+jobs:
+  include:
+    - env: PYTHON_VERSION=3.6.9 ARCH=amd64
+      arch: amd64
+    - env: PYTHON_VERSION=3.7.4 ARCH=amd64
+      arch: amd64
+    - env: PYTHON_VERSION=3.7.4 ARCH=arm64
+      arch: arm64
+    - env: PYTHON_VERSION=3.8.0 ARCH=amd64
+      arch: amd64
 install:
   - docker pull dmoj/runtimes-tier1
 script:
