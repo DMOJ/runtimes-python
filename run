@@ -7,6 +7,8 @@ mkdir -p "/code/build/$PYTHON_DIR"
 echo "Downloading $PYTHON_URL to $PYTHON_DIR..."
 curl -L "$PYTHON_URL" | tar -xJ -C "/code/build/$PYTHON_DIR" --strip-components=1
 cd "/code/build/$PYTHON_DIR"
+ls -la .
+pwd
 ./configure --prefix=/code/"$PYTHON_DIR" --enable-optimizations
 make -j"$(nproc)"
 make install
