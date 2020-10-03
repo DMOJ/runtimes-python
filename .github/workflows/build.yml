@@ -1,0 +1,22 @@
+name: build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.6.12, 3.7.9, 3.8.6, 3.9.0rc2 ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download docker image
+        run: docker pull dmoj/runtimes-tier1
+      - name: Build python
+        run: |
+          PYTHON_DIR="python$(echo "${{ matrix.python-version }}" | cut -d. -f 1-2)"
+          PYTHON_URL="https://www.python.org/ftp/python/$(perl -e 'shift=~/([\d.]+)/;print$1' "${{ matrix.python-version }}")/Python-${{ matrix.python-version }}.tar.xz"
+          docker run -e ARCH="$ARCH" -e PYTHON_DIR="$PYTHON_DIR" -e PYTHON_URL="$PYTHON_URL" -v "$(pwd):/code" dmoj/runtimes-tier1
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Python ${{ matrix.python-version }}
+          path: python*.tar.gz
