@@ -4,6 +4,7 @@ apt-get install --no-install-recommends -y \
     curl xz-utils make libffi-dev libssl-dev zlib1g-dev libreadline-dev liblzma-dev libncurses-dev libbz2-dev libsqlite3-dev
 
 mkdir "$PYTHON_DIR"
+cd /tmp
 echo "Downloading $PYTHON_URL to $PYTHON_DIR..."
 curl -L "$PYTHON_URL" | tar -xJ -C "$PYTHON_DIR" --strip-components=1
 cd "$PYTHON_DIR"
