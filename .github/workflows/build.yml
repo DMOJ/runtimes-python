@@ -14,7 +14,7 @@ jobs:
         run: |
           PYTHON_DIR="python$(echo "${{ matrix.python-version }}" | cut -d. -f 1-2)"
           PYTHON_URL="https://www.python.org/ftp/python/$(perl -e 'shift=~/([\d.]+)/;print$1' "${{ matrix.python-version }}")/Python-${{ matrix.python-version }}.tar.xz"
-          docker run -e ARCH="$ARCH" -e PYTHON_DIR="$PYTHON_DIR" -e PYTHON_URL="$PYTHON_URL" -v "$(pwd):/code" dmoj/runtimes-tier1
+          docker run -e ARCH="amd64" -e PYTHON_DIR="$PYTHON_DIR" -e PYTHON_URL="$PYTHON_URL" -v "$(pwd):/code" dmoj/runtimes-tier1
       - name: Archive build artifacts
         uses: actions/upload-artifact@v2
         with:
