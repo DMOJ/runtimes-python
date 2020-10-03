@@ -7,7 +7,7 @@ mkdir "$PYTHON_DIR"
 echo "Downloading $PYTHON_URL to $PYTHON_DIR..."
 curl -L "$PYTHON_URL" | tar -xJ -C "$PYTHON_DIR" --strip-components=1
 cd "$PYTHON_DIR"
-./configure --prefix=/code/"$PYTHON_DIR" --enable-optimizations
+./configure --prefix=/code/"$PYTHON_DIR" # --enable-optimizations
 make -j"$(nproc)"
 make install
 cd /code && tar czvf "$PYTHON_DIR-$ARCH.tar.gz" "$PYTHON_DIR"
