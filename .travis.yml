@@ -5,13 +5,17 @@ services:
   - docker
 jobs:
   include:
-    - env: PYTHON_VERSION=3.6.9 ARCH=amd64
+    - env: PYTHON_VERSION=3.6.12 ARCH=amd64
       arch: amd64
-    - env: PYTHON_VERSION=3.7.4 ARCH=amd64
+    - env: PYTHON_VERSION=3.7.9 ARCH=amd64
       arch: amd64
-    - env: PYTHON_VERSION=3.8.0 ARCH=amd64
+    - env: PYTHON_VERSION=3.8.6 ARCH=amd64
       arch: amd64
-    - env: PYTHON_VERSION=3.8.0 ARCH=aarch64
+    - env: PYTHON_VERSION=3.8.6 ARCH=aarch64
+      arch: arm64
+    - env: PYTHON_VERSION=3.9.0rc2 ARCH=amd64
+      arch: amd64
+    - env: PYTHON_VERSION=3.9.0rc2 ARCH=aarch64
       arch: arm64
 install:
   - docker pull dmoj/runtimes-tier1:"${ARCH}"-latest
