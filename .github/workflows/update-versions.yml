@@ -1,0 +1,29 @@
+name: update-versions
+on:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  build:
+    if: github.repository == 'DMOJ/runtimes-python'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Installing dependencies
+        run: pip install -r requirements.txt
+      - name: Update python versions
+        run: |
+          sed -i '/python-version:/c\        python-version: [ '"$(python get_versions.py | tr '\n' , | sed 's/,$//;s/,/, /g')"' ]' .github/workflows/build.yml
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          author: dmoj-build <build@dmoj.ca>
+          committer: dmoj-build <build@dmoj.ca>
+          commit-message: 'update python versions'
+          title: 'update python versions'
+          body: This PR has been auto-generated to update the python versions in `build` action.
+          reviewers: Xyene, quantum5, kiritofeng
+          branch: update-versions
