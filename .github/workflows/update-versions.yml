@@ -18,7 +18,7 @@ jobs:
         run: |
           sed -i '/python-version:/c\        python-version: [ '"$(python get_versions.py | tr '\n' , | sed 's/,$//;s/,/, /g')"' ]' .github/workflows/build.yml
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           author: dmoj-build <build@dmoj.ca>
           committer: dmoj-build <build@dmoj.ca>
