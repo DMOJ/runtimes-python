@@ -1,5 +1,8 @@
 name: update-versions
 on:
+  push:
+    branches:
+      - master
   schedule:
     - cron: '0 0 * * *'
 jobs:
@@ -20,6 +23,7 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v8
         with:
+          token: ${{ secrets.REPO_SCOPED_TOKEN }}
           author: dmoj-build <build@dmoj.ca>
           committer: dmoj-build <build@dmoj.ca>
           commit-message: 'update python versions'
