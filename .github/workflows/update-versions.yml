@@ -24,6 +24,7 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.REPO_SCOPED_TOKEN }}
+          branch-token: ${{ secrets.FORK_SCOPED_TOKEN }}
           author: dmoj-build <build@dmoj.ca>
           committer: dmoj-build <build@dmoj.ca>
           commit-message: 'update python versions'
@@ -31,3 +32,4 @@ jobs:
           body: This PR has been auto-generated to update the python versions in `build` action.
           reviewers: Xyene, quantum5, kiritofeng
           branch: update-versions
+          push-to-fork: dmoj-build/runtimes-python
