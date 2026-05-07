@@ -1,4 +1,5 @@
 import re
+from collections import defaultdict
 
 import requests
 from bs4 import BeautifulSoup
@@ -24,20 +25,28 @@ def main():
 
     soup = BeautifulSoup(ftp.content, 'html.parser')
 
-    releases = {}
+    releases = defaultdict(list)
     for version in soup.find_all('a'):
         href = version['href']
         if reversion.match(href):
             release = tuple(map(int, href.rstrip('/').split('.')))
             branch = (release[0], release[1])
             if branch in wanted:
-                if branch in releases:
-                    releases[branch] = max(releases[branch], release)
-                else:
-                    releases[branch] = release
+                releases[branch].append(release)
 
-    for _, release in sorted(releases.items()):
-        print('.'.join(map(str, release)))
+    for branch, versions in sorted(releases.items()):
+        for release in sorted(versions, reverse=True):
+            release = '.'.join(map(str, release))
+
+            check = requests.head(f'https://www.python.org/ftp/python/{release}/Python-{release}.tar.xz')
+            if check.status_code == 404:
+                continue
+
+            check.raise_for_status()
+            print(release)
+            break
+        else:
+            continue
 
 
 if __name__ == '__main__':
